@@ -1,32 +1,14 @@
-html {
-	text-align: center;
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-	font-size: 24px;
-}
-
-body {
+.center-children {
 	display: flex;
 	align-items: center;
-	justify-content: center;
 	flex-direction: column;
 }
 
-section {
-	text-align: left;
-	margin: auto;
-	max-width: 80ch;
+.short-lines {
+	width: 60ch;
 }
 
-ul {
-	margin: auto;
-	list-style-position: outside;
-}
-
-li {
-	transform: translateX(-15px);
-}
-
-#team_info {
-	padding-top: 2vh;
-	padding-bottom: 2vh;
+/* Pico customization */
+:root {
+	--typography-spacing-vertical: 1rem;
 }
