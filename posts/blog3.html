@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/pico.min.css">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <title>Dev Log 3</title>
+</head>
+<body>
+    <nav>
+		<ul>
+			<li><img id="logo" src="../resources/Project_Movement_1.png"></li>
+		</ul>
+		<ul>
+			<li><a href="../index.html">Home</a></li>
+			<li><a href="../devlogs.html">Dev Logs</a></li>
+			<li><a href="">Press Kit</a></li>
+		</ul>
+	</nav>
+    <main class="container center-children">
+        <h1>Dev Log 3: Developing the movement mechanics</h1>
+        <section class="short-lines">
+            <p>
+                This last week of development has been mainly focused on getting some of our ideas for
+                movement and movement abilities implemented in Godot. We had a bunch of ideas for
+                what movement should look like and what abilities might be interesting, and we have
+                implemented a good chunk of them. Our team's development velocity was a bit slower
+                over the weekend, but we are looking to make some good progress throughout this next week.
+            </p>
+            <p>
+                Since our game will be heavily centered around the experience of controlling a moving
+                character, its worth discussing how our current design for how the movement of the character
+                looks. Taking inspiration from the speed-focused Source gamemode of Surf, our goal with the
+                movement is to have players feel a bit sluggish if just controlling the character, but if they
+                make skillful use of the range of abilities, they should be able to traverse through our levels
+                very quickly and reach very high speeds.
+            </p>
+            <p>
+                To accomplish this, our player controller/kinematics are more physical in nature. The player's
+                motion and velocity is subject to frictions and other accelerations. When these forces aren't present
+                (like if the player is soaring through the air), the player character is able to maintain their velocity
+                and move very quickly. In order to emphasize use of movement abilities to get around, our player moves
+                fairly slowly when just running on the ground. Unlike other platformer games, the player's air
+                influence is extremely limited. Platformers normally allow the player to move
+                horizontally with similar or slightly less control and freedom than if they were
+                grounded. In our game, the player will only have a slight influence on their
+                horizontal velocity when in the air, much like the first person Source games that
+                we are taking inspiration from for our game's movement and core loop.
+            </p>
+        </section>
+    </main>
+</body>
+</html>

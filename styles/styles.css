@@ -8,7 +8,21 @@
 	width: 60ch;
 }
 
+#logo {
+	max-width: 7rem;
+	/* max-height: 4rem; */
+}
+
+nav {
+	padding-left: 16ch;
+	padding-right: 16ch;
+}
+
 /* Pico customization */
 :root {
 	--typography-spacing-vertical: 1rem;
+}
+
+nav {
+	background-color: #020003;
 }
