@@ -3,9 +3,34 @@
 }
 
 #progress {
-    width: 25vw;
+    width: 20vw;
 }
 
 section {
     display: default;
+}
+
+.reward {
+    border: 1px solid rgb(116, 116, 116);
+    border-radius: 10px;
+    padding: 1ch 1ch;
+    margin: 1ch 0ch;
+}
+
+.reward > p {
+    margin-bottom: 10px;
+}
+
+.reward > ul {
+    padding-left: 3ch;
+}
+
+li {
+    margin-bottom: 0px;
+}
+
+hr {
+    border: 1px solid rgb(116, 116, 116);
+    border-radius: 1px;
+    /* background-color: rgb(116, 116, 116); */
 }

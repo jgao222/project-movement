@@ -21,6 +21,7 @@ nav {
 /* Pico customization */
 :root {
 	--typography-spacing-vertical: 1rem;
+	--spacing: 0.8rem;
 }
 
 nav {
@@ -30,3 +31,6 @@ nav {
 /* h1 {
 	margin-bottom: 20px;
 } */
+h3 {
+	--typography-spacing-vertical: 1rem;
+}
