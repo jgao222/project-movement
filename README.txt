@@ -1,1 +1,0 @@
-Team website for Project Movement as part of CSE 481 D at University of Washington

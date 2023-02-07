@@ -5,7 +5,7 @@
 }
 
 .short-lines {
-	width: 60ch;
+	width: 65ch;
 }
 
 #logo {
@@ -21,8 +21,16 @@ nav {
 /* Pico customization */
 :root {
 	--typography-spacing-vertical: 1rem;
+	--spacing: 0.8rem;
 }
 
 nav {
 	background-color: #020003;
+}
+
+/* h1 {
+	margin-bottom: 20px;
+} */
+h3 {
+	--typography-spacing-vertical: 1rem;
 }
