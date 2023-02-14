@@ -1,3 +1,7 @@
+:root {
+	--short-line-width: 65ch;
+}
+
 .center-children {
 	display: flex;
 	align-items: center;
@@ -5,7 +9,7 @@
 }
 
 .short-lines {
-	width: 65ch;
+	width: var(--short-line-width);
 }
 
 #logo {
@@ -16,6 +20,30 @@
 nav {
 	padding-left: 16ch;
 	padding-right: 16ch;
+}
+
+.code {
+	border-radius: 8px;
+	background-color: var(--code-background-color);
+	color: var(--code-color);
+	padding: 1ch 1ch;
+	display: block;
+	white-space: pre;
+	width: 80ch;
+	transform: translateX(calc((-80ch + var(--short-line-width)) / 2));
+	margin-bottom: 1ch;
+	font-family: "Menlo", "Consolas", "Roboto Mono", "Ubuntu Monospace",
+    "Noto Mono", "Oxygen Mono", "Liberation Mono", monospace,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";;
+}
+
+.icode {
+	border-radius: 8px;
+	background-color: var(--code-background-color);
+	color: var(--code-color);
+	padding: .3ch .3ch;
+	font-family: "Consolas", 'Courier New', Courier, monospace;
+	white-space: pre;
 }
 
 /* Pico customization */

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="resources/favicon.ico">
+    <link rel="stylesheet" href="../styles/pico.min.css">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <title>Dev Log 6</title>
+</head>
+<body>
+    <nav>
+		<ul>
+			<li><img id="logo" src="../resources/Project_Movement_1.png"></li>
+		</ul>
+		<ul>
+			<li><a href="../index.html">Home</a></li>
+			<li><a href="../devlogs.html">Dev Logs</a></li>
+			<li><a href="../presskit.html">Press Kit</a></li>
+			<li><a href="../kickstarter.html">Kickstarter Mock</a></li>
+		</ul>
+	</nav>
+    <main class="container center-children">
+        <hgroup>
+            <h1>Dev Log 6: Improvements, Logging, POST Requests in Godot, and Public Release!</h1>
+            <h2>2/13/23</h2>
+        </hgroup>
+        <section class="short-lines">
+            <p>
+                In this devlog: a host of changes based on feedback from in-person testing,
+                rewriting the capstone's logging framework in GDSCript, POST request struggles,
+                and feedback from public release.
+            </p>
+        </section>
+        <section class="short-lines">
+            <h3>Movement Changes</h3>
+            <p>
+                Addressing the feedback from last week's testers, double jumping while in the air
+                was switched to be the same button as regularly jumping from the ground (<kbd>SPACE</kbd>).
+                Instead of setting <kbd>W</kbd> to also do a jump, <kbd>W</kbd> now results in a <i>super jump</i>.
+                This was implemented to help combat the lack of vertical mobility in the game.
+            </p>
+            <p>
+                <figure style="float: right; margin-left: 2ch;">
+                    <img src="blog6img/player_rays.png">
+                    <figcaption>The player character and three raycasts</figcaption>
+                </figure>
+                One of the complaints highlighted in <a href="blog5.html">last week's devlog</a> was that
+                it felt difficult to perform walljumps. We found this to be a combination of collisions
+                detection with walls in Godot not working as we thought it did, and player tendency
+                to hold away from walls when they want to walljump off of them. To address this issue,
+                we used <code>RayCast2D</code> nodes on the Player node and checked those
+                for collision instead of using the player's kinematic body's <code>is_on_wall()</code>.
+                An advantage of this method of checkout for if the player is on a wall or not is that
+                it fixes the collision detection issue and solves for players wanting to hold away
+                from the wall when trying to walljump. Since air control is minimal in the game,
+                the player will still be close enough to the wall for a bit, even if they press the
+                opposite direction movement key.
+            </p>
+            <p>
+                If you notice the ray under the player character, this is an experimental change. Again
+                in last week's devlog, we covered how players felt having essentially the same actions
+                (jump and double jump) on different keys was very confusing. But we were limited in
+                changing it because if we did, then it would be really easy for players to use up their
+                double jumps without knowing. The ray under the player checks for the ground collisions
+                only in the case that the player might want to bunny hop by pressing jump. Unlike the
+                wall collision detection, we still use <code>is_on_floor()</code> from Godot's
+                <code>KinematicBody2D</code> node. This allows a small margin for the player to still
+                bunny hop even when they press the space bar too early.
+            </p>
+        </section>
+        <section class="short-lines">
+            <h3>QOL Changes</h3>
+            <p>
+                These smaller QOL changes were also based on feedback from last week. First, we added
+                sound effects to common actions. Jumping, dashing, super jumping, bunny hopping, running,
+                dying, leaving the start zone, entering the end zone, and hitting a checkpoint now all have
+                sounds associated with them. While the sounds aren't completely cohesive, they do add a
+                degree of feedback to the player's actions, which is nice.
+            </p>
+            <p>
+                To address players not knowing when abilities were recharged, we implemented a stopgap fix
+                adding the time left to the ability display rather than a binary "yes/no".
+            </p>
+            <img src="blog6img/cooldown.gif" alt="Two timers for the dash and superjump abilities, displaying seconds remaining to one place of decimal precision">
+            <p>
+                Finally, since the game deals with moving fast and moving fast requires a big space to
+                move around in, a detached camera mode as been implemented to help players scout ahead.
+            </p>
+            <img src="blog6img/lookaround.gif" alt="The player moving the mouse and the camera adjusting its position based on where the player's mouse is in relation to the center of the screen">
+        </section>
+        <section class="short-lines">
+            <h3>Public Release and Logging</h3>
+            <p>
+                We released our build to the public on <a href="https://project-movement.itch.io/project-movement">Itch.io</a>, and implemented
+                automated logging and data collection. For some analysis and reflection on how that has gone, click <a href="../resources/Project Movement beta presentation.pdf">here</a>
+                to see our presentation on it.
+            </p>
+        </section>
+        <section class="short-lines">
+            <h3>POST Requests in Godot</h3>
+            <p>
+                Previous quarters of the Games Capstone here at the UW used a remote logging script
+                originally for HaxeFlixel that sends player data to a database server via HTTP POST requests. It logs
+                when levels start or end, and associates players with sessions and unique IDs. In
+                order to use this logging script, we first ported it to GDSCript and ironed out any
+                issues. I tried to keep it as close as a 1:1 rewrite as possible, since we didn't
+                know the exact format of data expected by the database server.
+            </p>
+            <p>
+                Trying to get the loggin script to work turned out to be very time consuming, and illustrated
+                some of the key differences between the original scripts, its many rewrites for
+                other engines, and our rewrite. Specifically, it had previously been converted to C#
+                for Unity, and a previous quarter's team had rewritten it in JavaScript since they
+                were targeting Web release.
+            </p>
+            <p>
+                The main problem that took so long to figure out was just the database server responding with
+                <code>{"tstatus":"f","tload":"4"}</code>. I had no clue what this could possibly mean and had
+                no access to information about how the database server was running. This didn't give any
+                indication of what was actually wrong with the way I was making requests in the GDSCript version
+                of the logger. As it turns out, the fix was fairly simple - the server expects <code>application/x-www-form-urlencoded</code>
+                body data in POST requests. I was already making POST requests, but hadn't realised that
+                url-encoding the body data was necessary. This fixed the issue, but was actually really awkward to do in GDSCript.
+            </p>
+            <p>
+                Let's get a bit more technical to explore why. In order to simplify the process of making
+                HTTP requests in Godot, an <code>HTTPRequest</code> node/class is present in Godot. It wraps
+                a <code>HTTPClient</code> node to actually perform the requests. So while it is possible to
+                add arbitrary headers to specify that a POST request should be <code>"Content-Type: application/x-www-form-urlencoded"</code>,
+                there's actually no way to url-encode a request's parameters with <code>HTTPRequest</code>.
+                Instead, my code ended up looking like this: <div class="code">func send_post_request(dst: String, parameters: Dictionary) -> HTTPRequest:
+	var dummyclient: = HTTPClient.new()
+
+	var req = HTTPRequest.new()
+	add_child(req)
+	var query_string = dummyclient.query_string_from_dict(parameters)
+	var headers = ["Accept: */*",
+                   "Content-Type: application/x-www-form-urlencoded"]
+	var rescode = req.request(dst, headers, false,
+                              HTTPClient.METHOD_POST, query_string)
+
+	return req</div>
+                This seems really strange. Even though it shouldn't require any state to url-encode a
+                string, the <code>query_string_from_dict</code> is only available on instances of
+                <code>HTTPClient</code> in Godot 3.5.2rc2. This is a really awkward and obtuse way of doing stuff,
+                and highlights the differences between game engines. Unity's default POST request
+                uses <code>application/x-www-form-urlencoded</code> and converts dictionaries to the
+                right query string format under the hood. The HaxeFlixel and JavaScript versions also
+                just make functions calls with what appear to be dictionaries, and have the query string
+                conversion automatically performed. Since this wasn't visible in any of the other
+                versions of the logging script, that's probably why it took so long to figure out.
+            </p>
+        </section>
+        <section class="short-lines">
+            <h3>Challenges</h3>
+            <p>
+                Our struggles with the logging script are not yet finished though. The recommended instructions
+                for using it state that "Wait until a response is received before continuing" for our requests
+                to initialize a user session and get a user session ID back from the server. But how can this
+                be achieved in Godot? I'm still struggling with answering this because there doesn't seem to
+                be a way to block all execution but still allow the HTTPRequest we actually want to wait for
+                to make progress. <code>OS.delay_msec()</code> blocks all execution so the HTTPRequest can't
+                ever get sent. But not doing that means that once we send the request, even if we <code>yield</code>
+                to wait for it, control will just transfer to some other node's operations and the game will
+                start without waiting. We have verified in the logging data that this is indeed a problem -
+                in one case we receive events without a session ID attached and that messes with the quality
+                of our data.
+            </p>
+            <p>
+                None of the other resources I can find when Googling need to block the execution of Godot in
+                this manner, where it is critical based on the contract of the API to block and not allow
+                anything else to happen and generate events that get sent to the server until a response is
+                receieved. We might be able to just live with the imperfect data, but if there's anything
+                out there floating around, please point me to it.
+            </p>
+        </section>
+    </main>
+</body>
+</html>
