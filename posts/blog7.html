@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="resources/favicon.ico">
+    <link rel="stylesheet" href="../styles/pico.min.css">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <title>Dev Log 7</title>
+</head>
+<body>
+    <nav>
+		<ul>
+			<li><img id="logo" src="../resources/Project_Movement_1.png"></li>
+		</ul>
+		<ul>
+			<li><a href="../index.html">Home</a></li>
+			<li><a href="../devlogs.html">Dev Logs</a></li>
+			<li><a href="../presskit.html">Press Kit</a></li>
+			<li><a href="../kickstarter.html">Kickstarter Mock</a></li>
+		</ul>
+	</nav>
+    <main class="container center-children">
+        <hgroup>
+            <h1>Dev Log 7: Beta 3 Release</h1>
+            <h2>2/21/23</h2>
+        </hgroup>
+        <section class="short-lines">
+            <p>
+                New week and I'm back with another devlog (a bit shorter this time). In this devlog we'll see some
+                of the new features in Project Movement, and discuss level design and
+                movement in the context of some of the feedback we've received after
+                releasing <a href="https://project-movement.itch.io/project-movement">Beta 3</a>. There's also a
+                <a href="blog7/Project Movement beta3 Presentation.pdf">slideshow presentation</a>
+                that goes over some player stats and other details about the release.
+            </p>
+        </section>
+        <section class="short-lines">
+            <h3>New Features</h3>
+            <p>
+                Showing off some of the new stuff this week, we have implemented an animated
+                character sprite.<br>
+                <img src="blog7/character_anim.gif" alt="the new animated character" loading="lazy"><br>
+                And a cool ghost trail effect for the dash ability.
+                <img src="blog7/dash_effect.gif" alt="a player character dash right left and up, and when the dash activates a many ghosts are left behind which fade from a light blue hue to a purple-ish one" loading="lazy">
+                Speaking of the dash, its implementation has changed yet again. Some day when we have
+                a finalized version of the mechanic and I have the will to do it, I'll go in depth on
+                creating the dash in Project Movement. Because it is the game's main movement ability, we really
+                want it to feel good to use.<br>
+                I learned how to add some simple particles in Godot, so now the checkpoints
+                give extra visual feedback in addition to auditory feedback when they have
+                been activated. <img src="blog7/checkpointglow.gif" alt="a gif of the player coming into contact with checkpoints, upon which they light up and start emitting particles" loading="lazy">
+                The Main menu has been changed to no longer use default theming from Godot. I think
+                it looks nicer. And in order to better support having more levels we've moved
+                the list of levels from the main menu to a dedicated level select screen.
+                <img src="blog7/pm_mainmenu2023-02-21 022223.png" alt="the main menu of Project Movement on 2/21/2023" loading="lazy">
+                <img src="blog7/pm_levelselect2023-02-21 022259.png" alt="the level select screen of Project Movement on 2/21/2023" loading="lazy">
+                Three new levels have also been added. Try out the game to see what they look like!
+                Their names are: "STARTER," an easier level applying some of the stuff in the tutorial;
+                "LETSGO," an experiment with moving hazards and terrain that has turned out to be a bit
+                more difficult; and "PILLARS," which is intended to be the most difficult level in the
+                game, featuring multiple very precise jumps, small platforms, and hazards abound.
+            </p>
+        </section>
+        <section class="short-lines">
+            <h3>Feedback: Levels and Air Control</h3>
+            <p>
+                We're glad the previous changes we have made (like click to dash and double jump on
+                the same key) have eliminated past complaints and points of frustration for players.
+                While we haven't gathered a ton of feedback, some of the most common pain points stem
+                from the level design and how the movement mechanics interact with it. In a previous
+                devlog I may have mentioned that level design is going to be a significant challenge,
+                and it certainly is turning out to be. The movement mechanics keep changing since our
+                design was never concrete, so it is difficult to make levels that harmonize.
+            </p>
+            <p>
+                Specifically, we receieved feedback about two general cases: first that in "LETSGO"
+                it was hard to see where to go, and frustrating to get past the moving obstacles,
+                and that in "PILLARS" it too difficult for a game with mechanics like ours.
+                In order to address these concerns, we plan to re-evaluate our levels and make
+                further adjustments to the parameters of our player movement. Players wanted more
+                air control if they were going to be tested by levels like "PILLARS".
+            </p>
+            <p>
+                So far we've covered lateral motion with the dash, keeping it with bunny hopping,
+                and added an effective way of moving vertically with the super jump. But there
+                is no way to slow down or even stop quickly, which multiple players expressed
+                they would like to have after playing "PILLARS". In Source movement, one of the
+                inspirations for this game, if the player is moving through the air simply tapping
+                in the opposite direction of motion completely halts the character's horizontal
+                velocity. When implementing the movement in our game, I thought that this wouldn't
+                make sense, and would look pretty weird, so decided against it. But I think I can
+                agree that giving the player more air control would be beneficial, at least for slowing down.
+            </p>
+            <p>
+                It shouldn't be hard to do, either. Getting just a little bit technical, we have two parameters of interest in the player
+                controller: <code>h_accel_air</code> and <code>max_h_air_influence_speed</code>. One
+                controls how fast the player can change their velocity through direction inputs while in the air.
+                The other controls the maximum horizontal velocity the player can reach while changing their
+                velocity via directional input when in the air. Currently, <code>h_accel_air</code>
+                is set to around a tenth of the grounded acceleration, and <code>max_h_air_influence_speed</code>
+                is set to around a third of the maximum grounded movement speed.
+                So fixing this might be as simple as
+                increasing <code>h_accel_air</code> while leaving <code>max_h_air_influence_speed</code>
+                unchanged. My concern is, however, that if the player can accelerate quickly in the
+                air to slow down, it will feel weird to not be able to accelerate past a smaller
+                velocity limit.
+            </p>
+            <p>
+                Hopefully that longer discussion illustrates the complexities of movement in
+                a game where the whole game is basically just movement. There's a lot of factors to
+                consider with each and every mechanic, and no way of telling how players will react
+                to them. We're not that good at judging the movement either since while developing the
+                game we have gained more familiarity with it and how it is supposed to work.
+            </p>
+        </section>
+        <section class="short-lines">
+            <p>Thanks for reading.</p>
+        </section>
+    </main>
+</body>
+</html>
