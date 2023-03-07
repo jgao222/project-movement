@@ -49,16 +49,23 @@ nav {
 /* Pico customization */
 :root {
 	--typography-spacing-vertical: 1rem;
-	--spacing: 0.8rem;
+	--spacing: 0.6rem;
 }
 
 nav {
 	background-color: #020003;
 }
 
-/* h1 {
-	margin-bottom: 20px;
-} */
+h1 {
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 50px;
+	--typography-spacing-vertical: 2rem;
+}
+
 h3 {
 	--typography-spacing-vertical: 1rem;
+}
+
+iframe {
+	margin-bottom: 0.8rem;
 }
