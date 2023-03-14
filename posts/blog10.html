@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&display=swap" rel="stylesheet">
+	<link rel="icon" type="image/x-icon" href="../resources/favicon.ico">
+    <link rel="stylesheet" href="../styles/pico.min.css">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <title>Dev Log 10</title>
+</head>
+<body>
+    <nav>
+		<ul>
+			<li><img id="logo" src="../resources/Project_Movement_1.png"></li>
+		</ul>
+		<ul>
+			<li><a href="../index.html">Home</a></li>
+			<li><a href="../devlogs.html">Dev Logs</a></li>
+			<li><a href="../presskit.html">Press Kit</a></li>
+			<li><a href="../kickstarter.html">Kickstarter Mock</a></li>
+		</ul>
+	</nav>
+    <main class="container center-children">
+        <hgroup class="short-lines">
+            <h1>Dev Log 10: Postmortem (Retrospective)</h1>
+            <h2>3/13/23</h2>
+        </hgroup>
+        <section class="short-lines">
+            <p>
+                I've heard the term "postmortem" in multiple contexts. Originally I thought it was
+                for a reflection after a failure, but generally I think it can also be used to
+                describe reflections after something is done. That's kind of weird, since it
+                invokes connotations of something being dead. It is true that we are not going to continue development, but
+                Project Movement isn't dead, it'll
+                live forever, in our hearts! So let's just call this a "retrospective".
+            </p>
+            <p>
+                By the way,
+                the <a href="https://github.com/Project-Movement/Project-Movement">Project Movement source code is now public on Github!</a>
+                Do take a gander at it if you're interested in how we structured our project or implemented some features. The code's
+                not all that pretty, but it works and it is somewhat well designed (enough for our purposes).
+            </p>
+            <p>
+                Anyways, for this final dev log we'll discuss the development of Project Movement
+                over the course of the Winter 2023 quarter and lessons, takeaways, etc that have come out of it.
+            </p>
+            <h3>Convention</h3>
+            <p>
+                It was fun! Cool to see people playing our game again in person after making improvements to it.
+            </p>
+            <h3>Godot</h3>
+            <p>
+                Using Godot was good! I can't think of any complaints or limitations caused by the engine itself.
+                Now that the CSE 481D logger script has been re-written in GDScript we hope that future
+                teams in CSE 481D will be able to use Godot. The Godot experience is pretty nice, and it is
+                quick to test out new features. To future teams, we developed in Godot 3.5! Godot 4 not be
+                compatible with the translated logging script. I would also recommend waiting for Godot 4.1
+                if you want to use Godot, since some features are missing from the 4.0 release.
+            </p>
+            <p>
+                I will recommend that if you do use Godot and also collaborate with Git/Github, it is
+                worth being careful with how that interacts with Godot. Godot saves scenes and resources
+                in text-based formats (<code>.tscn</code> and <code>.tres</code>), which makes it more friendly
+                to VCS. But, merge conflicts can cause these to diverge, and if you don't resolve merge conflicts
+                very carefully, stuff will break without sounding any errors. One particular instance that
+                happened during development was that stuff just stopped working after resolving merge conflicts.
+                Turns out that Godot's <code>.tscn</code> files have external resource declarations at the top, which you
+                can think of like importing other files. Only, the way they are declared attaches them to a numeric
+                identifier, and it is this number that is used for all further references to the external resource in the scene.
+                Merge conflicts where external resources have been added in both base and incoming versions will have those
+                resources with the same ID number! Carelessly resolving the merge conflict by accepting both changes
+                will mean that only one will get loaded with the ID, and the other simply won't work without
+                indicating any errors.
+            </p>
+            <p>
+                A small point of frustration with using Git and Godot is that sometimes Godot appears to cache
+                a version of <code>project.godot</code> in memory, and periodically dump it to the file on disk.
+                This doesn't happen on save, it just happens regularly. So if you use Git and change to a version
+                of the project where <code>project.godot</code> is different, Godot will silently override
+                it with the a now incorrect version, even if you select to reload it from disk. The only workaround
+                I could find is to quit the editor back to the project list, then change around project versions with Git,
+                then open the Godot editor project again.
+            </p>
+            <p>
+                Also, if changing branches with Git deletes scenes, they will still be open in the Godot editor
+                since those are kept in memory. If you are in the habit to just spam <kbd>CTRL+S</kbd> like I am,
+                those get saved back to disk again, effectively un-deleting stuff. So be careful when you change branches.
+            </p>
+            <h3>On Art</h3>
+            <p>Here's a spiel I wrote while reflecting on the art of the game not long after we implemented art assets:</p>
+            <p>
+                One of the things that our game lacked in early builds as any semblance of art. For the longest time, it looked like just a prototype hacked together. Even when we had playtesters play it, the game's visuals still only consisted of colored rectangles.
+            </p>
+            <p>
+I think that this was a pretty big impediment to our game's development process and experience to players. If you boil it down, playing a game is just looking at an array of colored lights and periodically pressing some buttons on a board based on the lights. That sounds really boring, but it is essentially what playing a game is, physically. The important aspect that makes games engaging is what is in the players head as they are looking at the array of colored lights. How the colors are organized and how they change and what visual patterns they evoke in the player's mind form an experience beyond just staring at colors and pressing buttons.
+            </p>
+This is why our game felt weak for the longest time, and why it feels much better after adding art. Art is fundamental to a game, and we should probably have prioritized it earlier. Even not making our own art, grabbing a tileset and character animation pack from someone else on the internet may have helped our game's experience and our experience of the game by leaps and bounds. Having art means the game can evoke images and themes in the player's mind. It's easy to understand an animated character moving around, since we are used to humans moving around and characters normally look like humans. It's less visually appealing, and therefore less of a familiar experience to just see a grey rectangle moving around. This decrease in familiarity likely leads to players understanding the game less, and feeling like the experience they get from it is weaker since it is not as immediately obvious what is happening. As one of the developers of the game, I do understand the intricacies of what is happening when the grey rectangle moves because I implemented that, so even early on, Project Movement did feel like a game to me. But to others, who don't know the inner workings, can't tell what is going on, or how, or why. They don't know how their actions influence the world, or the character, and they may find it hard to associate and learn because they can't associate the visuals of what they are seeing with an actual character and actual world.
+            </p>
+            <p>
+So basically, our game created a weaker/lesser experience for players when it didn't have any art, and this was a significant issue since it engaged players less, and they may have been less attentive to other aspects of the game.
+            </p>
+            <h3></h3>
+            <p>
+
+            </p>
+        </section>
+    </main>
+</body>
+</html>
