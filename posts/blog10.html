@@ -46,10 +46,23 @@
             <p>
                 Anyways, for this final dev log we'll discuss the development of Project Movement
                 over the course of the Winter 2023 quarter and lessons, takeaways, etc that have come out of it.
+                Apologies in advance for the excess of text on this one.
             </p>
             <h3>Convention</h3>
             <p>
-                It was fun! Cool to see people playing our game again in person after making improvements to it.
+                The CSE 481D Convention/Demo Day was fun! It was really cool to see people playing our game again in person after we had made improvements to it.
+                We hadn't actually seen people physically interact with our game since it was just a grey rectangle jumping around a single level
+                all the way back in <a href="blog5.html">Dev Log 5</a>, which was ~5 weeks ago. Players seemed to enjoy the game,
+                with most people playing through most of the levels. We even had a good amount of players attempt and complete
+                the final level of the game, "Pillars". Something about us saying it was the last level and it was hard
+                made people want to try to beat it. Some people got frustrated, but it also seems like they felt sucessful
+                after completing it. So may be we succeeded and people had fun.
+            </p>
+            <p>
+                It was also cool to see the other teams in the capstone with their games. Go look at
+                <a href="https://courses.cs.washington.edu/courses/cse481d/23wi/team-websites/">the team websites</a>
+                for the capstone course to find links to their games. The other teams had enviable posters and put a good deal of further
+                polish on their games from the last time I saw them.
             </p>
             <h3>Godot</h3>
             <p>
@@ -60,6 +73,7 @@
                 compatible with the translated logging script. I would also recommend waiting for Godot 4.1
                 if you want to use Godot, since some features are missing from the 4.0 release.
             </p>
+            <h3>Git and Godot</h3>
             <p>
                 I will recommend that if you do use Godot and also collaborate with Git/Github, it is
                 worth being careful with how that interacts with Godot. Godot saves scenes and resources
@@ -72,8 +86,7 @@
                 identifier, and it is this number that is used for all further references to the external resource in the scene.
                 Merge conflicts where external resources have been added in both base and incoming versions will have those
                 resources with the same ID number! Carelessly resolving the merge conflict by accepting both changes
-                will mean that only one will get loaded with the ID, and the other simply won't work without
-                indicating any errors.
+                will mean that only one will get loaded with the ID, and the other simply won't work, and no errors will be indicated.
             </p>
             <p>
                 A small point of frustration with using Git and Godot is that sometimes Godot appears to cache
@@ -89,7 +102,7 @@
                 since those are kept in memory. If you are in the habit to just spam <kbd>CTRL+S</kbd> like I am,
                 those get saved back to disk again, effectively un-deleting stuff. So be careful when you change branches.
             </p>
-            <h3>On Art</h3>
+            <h3>Art</h3>
             <p>Here's a spiel I wrote while reflecting on the art of the game not long after we implemented art assets:</p>
             <p>
                 One of the things that our game lacked in early builds as any semblance of art. For the longest time, it looked like just a prototype hacked together. Even when we had playtesters play it, the game's visuals still only consisted of colored rectangles.
@@ -102,9 +115,101 @@ This is why our game felt weak for the longest time, and why it feels much bette
             <p>
 So basically, our game created a weaker/lesser experience for players when it didn't have any art, and this was a significant issue since it engaged players less, and they may have been less attentive to other aspects of the game.
             </p>
-            <h3></h3>
+            <h3>Collaboration</h3>
             <p>
-
+                I remember one of my earlier courses at UW tried to teach us how to
+                do group work by deciding roles like driver, notetaker, and so on.
+                It felt unnecessary for the work that we were doing, so we mainly ignored
+                the roles and did group work like always. However, I can see how this
+                might have been useful after working on Project Movement. Projct Movement was a
+                markedly different type of project because it spanned many weeks and involved
+                our own designs and initiatives. Since it had a larger scope, keeping track
+                of what was said, driving meetings, and keeping people accountable for their work
+                seemed to be more important, and since we didn't have any roles or clear divisions
+                for work, our effectiveness wasn't great.
+            </p>
+            <p>
+                We also couldn't find a time to meet regularly each week to check in and re-orient. A lot of the time
+                it was easy to focus on work for other classes and not communicate about progress or
+                not make progress for extended periods. I think it would have definitely been better to
+                have set some time, but our schedules just didn't work out this quarter. Inconsistent
+                workload for other classes and a slew of more difficult/work intensive courses for all the
+                members of our team led to us making less progress than we could have.
+            </p>
+            <p>
+                Especially early on, we had made verbal agreements to do work on different parts of
+                Project Movement. That didn't work too well because some of the other parts depended on
+                core parts being finished or at least prototyped first. We also had some struggles with
+                getting Git set up correctly. I had gotten affirmation from everyone that they were OK
+                using Git and Github, but I didn't consider that some team members' level of familiarity with doing
+                larger projects wasn't the same as mine in that they had not previously
+                worked alognside many others in a single Github repository. We also had
+                members of the team using Git in different ways. For example, I like to commit
+                small changes as long as I think they are atomic, and then push early and often.
+                Other team members preferred to make a significant amount of progress and only then
+                commit and push. Since backing up data is not a main reason we used Git, it's not
+                an issue that some team members don't commit and push often. Still, it would have
+                definitely been warranted to have a discussion on how to use Git/Github and perhaps
+                establish consistent practices for collaborating using those tools.
+            </p>
+            <h3>Games as Systems</h3>
+            <p>
+                I think it would have been interesting if we had more time to consider game design
+                formally. Even so, what we saw from people playing our game and giving us feedback
+                was a sort of system design experience that was totally new. Not only does a game
+                form a system in the way that mechanics interact, but when a player plays a game
+                this also forms a system which includes the player and the experience of the player
+                is another aspect of the system. In this way, the many design decisions and tradeoffs
+                involved with developing a software system apply in a unique way, where there is no
+                rigorous set of requirements, and the testing of the system doesn't just result in
+                a binary pass/fail. This was therefore an utterly unique experience in creating software,
+                and I think it was a valuable one to have.
+            </p>
+            <p>
+                Since the games capstone resides in the CSE program, I think it would be potentially valuable
+                to have explored games as systems more formally. I learned about the
+                <a href="https://users.cs.northwestern.edu/~hunicke/MDA.pdf">MDA approach</a>, which is
+                a slightly more rigorous approach that I think might have been useful to consider when
+                we were designing our game. We did have aspects like intended player experience in mind, and
+                what sort of mechanics would lead to that, but we didn't have anything concrete. As we got more
+                feedback from players, we had a more clear of how the dynamics of our game impacted player
+                experience, and adjusted the mechanics in order to address it. Overall, we realized that
+                when many mechanics are combined in the same system, there are many more configurations for the
+                player-game system. Some of them aren't as desirable. We saw players often moving in
+                unintended ways, breaking our game or not getting the experience we wanted them to have.
+                Like the MDA paper illustrates, since the creators of a game fundamentally see it from a
+                different angle than the players, what sort of knowledge is intuitive changes completely,
+                which changes how developers and players interact with a game. Desinging an experience
+                without being able to experience it is truly a difficult problem, and game creation an
+                complex task as a result.
+            </p>
+            <h3>Indie Games</h3>
+            <p>
+                CSE 481D wasn't about game design though. Even though we designed a game, the course also
+                focused on the other processes surrounding creating and releasing an indie game. Stuff like
+                social media presence, building hype, getting people to play, generating marketing and visual materials,
+                all of that was very interesting to see. Particularly I would want to compare it to trying
+                to make an indie game without even learning about what we did in this course. That would require
+                studying other indie games closely to see exactly what visual and marketing elements they create
+                and then trying to do the same thing without any guidelines. That would be really hard. So, I think that having the knowledge from this course
+                could be very useful to have when seeking to make and properly release an indie game.
+            </p>
+            <p>
+                Although, making stuff like the key visual, Kickstarter mockup, presskit, social media presence, and website wasn't really
+                as much fun as working on the game though. So I can see how those important things might
+                be ignored by game devs. I think I might have gained the equivalent of a year or more worth of
+                experience and knowledge about making indie games from this course relative to if I were to
+                try to set off on my own and make an indie game without having taken this course. That is very valuable.
+            </p>
+            <h3>Thank You</h3>
+            <p>
+                If you are still here reading, commendations to you. Thanks for reading my rambling dev log writings.
+                Hopefully there is some worth to the thoughts that I've put out above here. I'm not sure if I said
+                everything I wanted to say in the way I originally wanted to say it because I had thought about
+                some of these topics a while before this dev log. But now it is all laid bare, hooray. With this dev log now finished,
+                I think that will mark the end of work on Project Movement. Again thanks for reading, thanks
+                to the course staff for the support
+                throughout the quarter and for running the course and giving us the opportunity to develop a game.
             </p>
         </section>
     </main>
